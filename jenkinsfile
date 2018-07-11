@@ -1,0 +1,39 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Compile Stage') {
+            steps {
+                echo 'Compile stage completed successfully'
+            }
+        }
+        stage('Test Stage') {
+            steps {
+                echo 'Test stage completed successfully'
+            }
+        }
+        stage('Deploy Stage') {
+            steps {
+                echo 'Deploy stage completed successfully'
+            }
+        }
+		stage('Create Package') {
+            steps {
+		     echo "Building the package ${env.BUILD_NUMBER} in ARA"
+		     script{
+			 
+				   def json = """ \
+				   \"{\'name\':\'${env.BUILD_NUMBER}\',\'folder\':\'DEFAULT\',\'owner\':\'100/AUTOMIC/AUTOMIC\',\'custom_type\':\'Continuous Integration\',\'application\':\'DemoApp\'}" \
+						"""
+			        echo 'test POST Create package body'
+                    echo json
+                    powershell "E:\\Tools\\curl-7.48.0-win64\\bin\\curl \
+                    -D- \
+                    -u 100/AUTOMIC/AUTOMIC:automic \
+                    -X POST 'http://localhost:80/ara/api/data/v1/packages' \
+                    -H 'Content-Type: application/json' \
+                    -d ${json} "
+			 }
+		 }
+        }
+    }
+}
