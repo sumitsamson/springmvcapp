@@ -22,7 +22,7 @@ pipeline {
 		     script{
 			 
 				   def json = """ \
-				   \"{\'name\':\'${env.BUILD_NUMBER}\',\'folder\':\'DEFAULT\',\'owner\':\'100/AUTOMIC/AUTOMIC\',\'custom_type\':\'Continuous Integration\',\'application\':\'DemoApp\'}" \
+				   \"{\'name\':\'${JOB_NAME}-${env.BUILD_NUMBER}\',\'folder\':\'DEFAULT\',\'owner\':\'100/AUTOMIC/AUTOMIC\',\'custom_type\':\'Continuous Integration\',\'application\':\'DemoApp\'}" \
 						"""
 			        echo 'test POST Create package body'
                     echo json
